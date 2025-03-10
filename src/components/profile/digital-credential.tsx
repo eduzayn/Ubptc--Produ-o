@@ -11,7 +11,10 @@ interface DigitalCredentialProps {
 }
 
 export function DigitalCredential({ member }: DigitalCredentialProps) {
-  const validationUrl = `https://ubpct.org.br/validate/${member.id}`;
+  // Usa URL relativa para funcionar em qualquer domínio
+  const validationUrl = `/validate/${member.id}`;
+  const baseUrl = window.location.origin;
+  const fullValidationUrl = `${baseUrl}${validationUrl}`;
 
   return (
     <Card className="max-w-md mx-auto bg-gradient-to-br from-blue-600 to-blue-700 text-white">
@@ -29,7 +32,7 @@ export function DigitalCredential({ member }: DigitalCredentialProps) {
         <div className="space-y-1">
           <h3 className="text-xl font-semibold">{member.full_name}</h3>
           <p className="text-blue-100">CPF: {member.cpf}</p>
-          <p className="text-blue-100">RG: {member.rg}</p>
+          <p className="text-blue-100">RG: {member.rg || "Não informado"}</p>
         </div>
 
         {member.membership_expiry && (
@@ -40,7 +43,12 @@ export function DigitalCredential({ member }: DigitalCredentialProps) {
         )}
 
         <div className="flex justify-center bg-white p-4 rounded-lg">
-          <QRCodeSVG value={validationUrl} size={180} level="H" includeMargin />
+          <QRCodeSVG
+            value={fullValidationUrl}
+            size={180}
+            level="H"
+            includeMargin
+          />
         </div>
 
         <p className="text-xs text-center text-blue-100">

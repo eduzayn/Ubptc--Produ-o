@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useRoutes } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
@@ -21,9 +21,14 @@ import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
 function App() {
+  // Tempo routes
+  const tempoRoutes =
+    import.meta.env.VITE_TEMPO === "true" ? useRoutes([]) : null;
+
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <AuthProvider>
+        {tempoRoutes}
         <Routes>
           {/* Rotas públicas */}
           <Route path="/login" element={<LoginPage />} />

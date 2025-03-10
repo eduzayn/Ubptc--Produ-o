@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { TicketDetailsDialog } from "@/components/support/ticket-details-dialog";
+import { mockSupportTickets } from "@/lib/auth";
 import type { Tables } from "@/types/supabase";
 
 // Define ticket type manually since it's not in the schema yet
@@ -18,7 +19,7 @@ type Ticket = {
   priority: string;
   category: string;
   created_at: string;
-  updated_at: string;
+  updated_at?: string;
   member?: {
     full_name: string;
   };
@@ -36,15 +37,23 @@ export default function AdminSupportPage() {
 
   async function loadTickets() {
     try {
-      const { data, error } = await supabase
-        .from("support_tickets")
-        .select("*, member:members(full_name)")
-        .order("created_at", { ascending: false });
+      if (import.meta.env.DEV) {
+        // Em desenvolvimento, usa dados mockados
+        setTickets(mockSupportTickets as Ticket[]);
+      } else {
+        // Em produção, carrega do Supabase
+        const { data, error } = await supabase
+          .from("support_tickets")
+          .select("*, member:members(full_name)")
+          .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setTickets(data || []);
+        if (error) throw error;
+        setTickets(data || []);
+      }
     } catch (err) {
       console.error("Error loading tickets:", err);
+      // Fallback para dados mockados em caso de erro
+      setTickets(mockSupportTickets as Ticket[]);
     } finally {
       setLoading(false);
     }
@@ -78,7 +87,9 @@ export default function AdminSupportPage() {
 
   const filteredTickets = tickets.filter(
     (ticket) =>
-      ticket.member?.full_name.toLowerCase().includes(search.toLowerCase()) ||
+      (ticket.member?.full_name || "")
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
       ticket.title.toLowerCase().includes(search.toLowerCase()) ||
       ticket.description.toLowerCase().includes(search.toLowerCase()),
   );
@@ -122,9 +133,11 @@ export default function AdminSupportPage() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <h3 className="font-semibold">{ticket.title}</h3>
-                        <span className="text-sm text-muted-foreground">
-                          • {ticket.member?.full_name}
-                        </span>
+                        {ticket.member?.full_name && (
+                          <span className="text-sm text-muted-foreground">
+                            • {ticket.member.full_name}
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-muted-foreground line-clamp-2">
                         {ticket.description}
@@ -156,6 +169,14 @@ export default function AdminSupportPage() {
                 </CardContent>
               </Card>
             ))
+          )}
+
+          {!loading && filteredTickets.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">
+                Nenhum ticket encontrado para a busca atual.
+              </p>
+            </div>
           )}
         </div>
       </div>

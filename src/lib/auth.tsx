@@ -23,7 +23,7 @@ const mockUser: User = {
   email: "dev@example.com",
 };
 
-const mockMember = {
+export const mockMember = {
   id: "dev-member",
   user_id: "dev-user",
   full_name: "Usuário de Desenvolvimento",
@@ -110,6 +110,54 @@ export const mockRecordedClasses = [
   },
 ];
 
+// Mock data para e-books
+export const mockEbooks = [
+  {
+    id: "1",
+    title: "Fundamentos da Psicanálise",
+    description: "Uma introdução aos conceitos básicos da psicanálise.",
+    category: "Psicanálise",
+    cover_url:
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",
+    file_url: "https://example.com/ebook1.pdf",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "2",
+    title: "Terapia Cognitiva na Prática",
+    description: "Guia prático para aplicação da terapia cognitiva.",
+    category: "Terapia Cognitiva",
+    cover_url:
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500&q=80",
+    file_url: "https://example.com/ebook2.pdf",
+    created_at: new Date().toISOString(),
+  },
+];
+
+// Mock data para tickets de suporte
+export const mockSupportTickets = [
+  {
+    id: "1",
+    member_id: "dev-member",
+    title: "Problema com acesso ao curso",
+    description: "Não consigo acessar o material do curso de Psicanálise.",
+    status: "open",
+    priority: "high",
+    category: "technical",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "2",
+    member_id: "dev-member",
+    title: "Dúvida sobre renovação",
+    description: "Gostaria de saber como renovar minha associação.",
+    status: "closed",
+    priority: "medium",
+    category: "billing",
+    created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
 export default function AuthProvider({
   children,
 }: {
@@ -126,13 +174,23 @@ export default function AuthProvider({
       return;
     }
 
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    // Em produção, verifica se há uma sessão ativa
+    const checkSession = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        setUser(data.session?.user || null);
+      } catch (err) {
+        console.error("Error checking auth session:", err);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Listen for changes on auth state (signed in, signed out, etc.)
+    checkSession();
+
+    // Escuta mudanças no estado de autenticação
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -149,16 +207,21 @@ export default function AuthProvider({
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
         },
-      },
-    });
-    if (error) throw error;
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error("Error signing up:", err);
+      throw err;
+    }
   };
 
   const signIn = async (email: string, password: string) => {
@@ -167,11 +230,16 @@ export default function AuthProvider({
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error("Error signing in:", err);
+      throw err;
+    }
   };
 
   const signOut = async () => {
@@ -180,8 +248,13 @@ export default function AuthProvider({
       return;
     }
 
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (err) {
+      console.error("Error signing out:", err);
+      throw err;
+    }
   };
 
   return (

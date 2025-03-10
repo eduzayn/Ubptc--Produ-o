@@ -1,10 +1,11 @@
 interface LogoProps {
   variant?: "default" | "white";
+  className?: string;
 }
 
-export function Logo({ variant = "default" }: LogoProps) {
+export function Logo({ variant = "default", className = "" }: LogoProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-2 ${className}`}>
       <div
         className={`w-10 h-10 ${variant === "white" ? "bg-white/20" : "bg-gradient-to-br from-blue-600 to-blue-700"} rounded-lg flex items-center justify-center shadow-lg`}
       >

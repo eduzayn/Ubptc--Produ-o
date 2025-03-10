@@ -1,5 +1,6 @@
 import { MainNav } from "./main-nav";
 import { useLayoutSettings } from "@/hooks/use-layout-settings";
+import { Logo } from "@/components/ui/logo";
 
 export function Header() {
   const { settings } = useLayoutSettings("header", "header");
@@ -23,7 +24,7 @@ export function Header() {
             className="h-8 w-auto mr-6"
           />
         ) : (
-          <span className="text-xl font-bold mr-6">UBPCT</span>
+          <Logo className="mr-6" />
         )}
         <MainNav />
       </div>

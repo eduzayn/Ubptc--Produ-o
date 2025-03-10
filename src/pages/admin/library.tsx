@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, Plus } from "lucide-react";
 import { EbookFormDialog } from "@/components/admin/ebook-form-dialog";
+import { mockEbooks } from "@/lib/auth";
 import type { Tables } from "@/types/supabase";
 
 type Ebook = Tables<"ebooks">;
@@ -23,15 +24,23 @@ export default function AdminLibraryPage() {
 
   async function loadEbooks() {
     try {
-      const { data, error } = await supabase
-        .from("ebooks")
-        .select("*")
-        .order("created_at", { ascending: false });
+      if (import.meta.env.DEV) {
+        // Em desenvolvimento, usa dados mockados
+        setEbooks(mockEbooks as Ebook[]);
+      } else {
+        // Em produção, carrega do Supabase
+        const { data, error } = await supabase
+          .from("ebooks")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setEbooks(data || []);
+        if (error) throw error;
+        setEbooks(data || []);
+      }
     } catch (err) {
       console.error("Error loading ebooks:", err);
+      // Fallback para dados mockados em caso de erro
+      setEbooks(mockEbooks as Ebook[]);
     } finally {
       setLoading(false);
     }
