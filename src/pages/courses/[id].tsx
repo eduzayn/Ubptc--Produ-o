@@ -41,6 +41,7 @@ export default function CourseDetailsPage() {
             courseMaterials.map((m) => ({
               ...m,
               created_at: new Date().toISOString(),
+              type: m.type as "pdf" | "video",
             })),
           );
           setClasses(

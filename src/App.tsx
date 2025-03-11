@@ -1,7 +1,8 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate, useRoutes } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
+const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
@@ -17,18 +18,14 @@ import SupportPage from "./pages/support";
 import JoinPage from "./pages/join";
 import JoinSuccessPage from "./pages/join/success";
 import ValidateCredentialPage from "./pages/validate/[id]";
+import AboutPage from "./pages/about";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
 function App() {
-  // Tempo routes
-  const tempoRoutes =
-    import.meta.env.VITE_TEMPO === "true" ? useRoutes([]) : null;
-
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<p>Carregando...</p>}>
       <AuthProvider>
-        {tempoRoutes}
         <Routes>
           {/* Rotas públicas */}
           <Route path="/login" element={<LoginPage />} />
@@ -36,6 +33,7 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/join/success" element={<JoinSuccessPage />} />
           <Route path="/validate/:id" element={<ValidateCredentialPage />} />
+          <Route path="/about" element={<AboutPage />} />
 
           {/* Rotas protegidas */}
           <Route
@@ -88,6 +86,18 @@ function App() {
           />
 
           {/* Admin routes */}
+          <Route
+            path="/admin"
+            element={<Navigate to="/admin/dashboard" replace />}
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/members"
             element={

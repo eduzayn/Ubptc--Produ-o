@@ -157,7 +157,7 @@ export default function SupportPage() {
       />
 
       <TicketDetailsDialog
-        ticket={selectedTicket}
+        ticket={selectedTicket as any}
         onOpenChange={(open) => !open && setSelectedTicket(null)}
         onTicketUpdated={loadTickets}
       />

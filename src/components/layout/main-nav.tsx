@@ -7,6 +7,8 @@ import {
   UserCircle,
   MessageCircle,
   Settings,
+  Info,
+  LogIn,
 } from "lucide-react";
 
 interface MainNavProps {
@@ -23,33 +25,45 @@ export function MainNav({ className = "" }: MainNavProps) {
         </Link>
       </Button>
       <Button asChild variant="ghost">
+        <Link to="/about">
+          <Info className="h-4 w-4 mr-2" />
+          Sobre Nós
+        </Link>
+      </Button>
+      <Button asChild variant="ghost">
         <Link to="/profile">
           <UserCircle className="h-4 w-4 mr-2" />
-          Profile
+          Perfil
         </Link>
       </Button>
       <Button asChild variant="ghost">
         <Link to="/courses">
           <GraduationCap className="h-4 w-4 mr-2" />
-          Courses
+          Cursos
         </Link>
       </Button>
       <Button asChild variant="ghost">
         <Link to="/library">
           <BookOpen className="h-4 w-4 mr-2" />
-          Library
+          Biblioteca
         </Link>
       </Button>
       <Button asChild variant="ghost">
         <Link to="/support">
           <MessageCircle className="h-4 w-4 mr-2" />
-          Support
+          Suporte
         </Link>
       </Button>
       <Button asChild variant="ghost">
-        <Link to="/admin/members">
+        <Link to="/admin/dashboard">
           <Settings className="h-4 w-4 mr-2" />
           Admin
+        </Link>
+      </Button>
+      <Button asChild variant="default" className="ml-auto">
+        <Link to="/login">
+          <LogIn className="h-4 w-4 mr-2" />
+          Entrar
         </Link>
       </Button>
     </nav>

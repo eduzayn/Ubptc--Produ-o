@@ -7,6 +7,7 @@ import {
   DollarSign,
   MessageCircle,
   Palette,
+  LayoutDashboard,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
@@ -17,6 +18,16 @@ export function AdminNav() {
 
   return (
     <nav className="flex flex-col space-y-2">
+      <Button
+        variant={isActive("/admin/dashboard") ? "default" : "ghost"}
+        className="w-full justify-start"
+        asChild
+      >
+        <Link to="/admin/dashboard">
+          <LayoutDashboard className="h-4 w-4 mr-2" />
+          Dashboard
+        </Link>
+      </Button>
       <Button
         variant={isActive("/admin/members") ? "default" : "ghost"}
         className="w-full justify-start"

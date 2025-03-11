@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { TempoDevtools } from "tempo-devtools";
 import AuthProvider from "./lib/auth";
 
+// Inicializar o Tempo Devtools
 TempoDevtools.init();
 
 const basename = import.meta.env.BASE_URL;

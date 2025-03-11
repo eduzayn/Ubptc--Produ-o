@@ -182,7 +182,7 @@ export default function AdminSupportPage() {
       </div>
 
       <TicketDetailsDialog
-        ticket={selectedTicket}
+        ticket={selectedTicket as any}
         onOpenChange={(open) => !open && setSelectedTicket(null)}
         onTicketUpdated={loadTickets}
       />
