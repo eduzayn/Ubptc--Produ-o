@@ -2,6 +2,9 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate, useRoutes } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
+import MemberAreaPage from "./pages/member-area";
+import AdminDashboardPage from "./pages/admin-dashboard";
+import PaymentPage from "./pages/payment";
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
@@ -16,6 +19,8 @@ import LibraryPage from "./pages/library";
 import SupportPage from "./pages/support";
 import JoinPage from "./pages/join";
 import JoinSuccessPage from "./pages/join/success";
+import AboutPage from "./pages/about";
+import ContactPage from "./pages/contact";
 import ValidateCredentialPage from "./pages/validate/[id]";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
@@ -32,9 +37,14 @@ function App() {
         <Routes>
           {/* Rotas públicas */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/member-area" element={<MemberAreaPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/join" element={<JoinPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/join/success" element={<JoinSuccessPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/validate/:id" element={<ValidateCredentialPage />} />
 
           {/* Rotas protegidas */}
