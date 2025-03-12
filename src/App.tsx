@@ -4,6 +4,8 @@ import Home from "./components/home";
 import LoginPage from "./pages/login";
 import MemberAreaPage from "./pages/member-area";
 import AdminDashboardPage from "./pages/admin-dashboard";
+import AdminDashboard from "./pages/admin/dashboard";
+import AdminPanel from "./pages/admin-panel";
 import PaymentPage from "./pages/payment";
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
@@ -39,6 +41,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/member-area" element={<MemberAreaPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/join" element={<JoinPage />} />
           <Route path="/payment" element={<PaymentPage />} />
