@@ -28,4 +28,16 @@ export default defineConfig({
   define: {
     __WS_TOKEN__: JSON.stringify("tempo-ws-token"),
   },
+  build: {
+    chunkSizeWarningLimit: 1000, // Evita avisos de chunks grandes
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor"; // Separa dependências externas em um chunk específico
+          }
+        },
+      },
+    },
+  },
 });
