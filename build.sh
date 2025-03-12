@@ -5,4 +5,7 @@ echo "Listing files: $(ls -la)"
 echo "Node version: $(node -v)"
 echo "NPM version: $(npm -v)"
 
-npm run build-no-errors
+# Usar caminhos completos para os binários
+export PATH="$PATH:./node_modules/.bin"
+npx tsc --noEmitOnError false
+npx vite build
