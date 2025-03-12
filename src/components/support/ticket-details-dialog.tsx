@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-fix";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -15,8 +15,27 @@ import { Badge } from "@/components/ui/badge";
 import { Send } from "lucide-react";
 import type { Tables } from "@/types/supabase";
 
-type Ticket = Tables<"support_tickets">;
-type Message = Tables<"support_messages">;
+type Ticket = {
+  id: string;
+  member_id: string;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  category: string;
+  created_at: string;
+  updated_at?: string;
+};
+
+type Message = {
+  id: string;
+  ticket_id: string;
+  member_id: string | null;
+  admin_id: string | null;
+  message: string;
+  created_at: string | null;
+  updated_at: string | null;
+};
 
 interface TicketDetailsDialogProps {
   ticket: Ticket | null | undefined;

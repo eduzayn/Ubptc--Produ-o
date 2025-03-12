@@ -4,10 +4,17 @@ import { supabase } from "@/lib/supabase";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button-fix";
 import { Search } from "lucide-react";
-import type { Tables } from "@/types/supabase";
 
-type Payment = Tables<"payments">;
+type Payment = {
+  id: string;
+  member_id: string;
+  amount: number;
+  payment_method: string;
+  status: string;
+  created_at: string | null;
+};
 
 export default function AdminFinancesPage() {
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -20,13 +27,35 @@ export default function AdminFinancesPage() {
 
   async function loadPayments() {
     try {
-      const { data, error } = await supabase
-        .from("payments")
-        .select("*, member:members(full_name)")
-        .order("created_at", { ascending: false });
+      // Mock data for development
+      const mockPayments = [
+        {
+          id: "1",
+          member_id: "123",
+          amount: 399.9,
+          payment_method: "credit_card",
+          status: "paid",
+          created_at: new Date().toISOString(),
+        },
+        {
+          id: "2",
+          member_id: "456",
+          amount: 349.9,
+          payment_method: "pix",
+          status: "pending",
+          created_at: new Date().toISOString(),
+        },
+        {
+          id: "3",
+          member_id: "789",
+          amount: 199.9,
+          payment_method: "boleto",
+          status: "failed",
+          created_at: new Date().toISOString(),
+        },
+      ];
 
-      if (error) throw error;
-      setPayments(data || []);
+      setPayments(mockPayments);
     } catch (err) {
       console.error("Error loading payments:", err);
     } finally {

@@ -20,7 +20,7 @@ type Ticket = {
   category: string;
   created_at: string;
   updated_at: string;
-};
+} | null;
 
 export default function SupportPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);

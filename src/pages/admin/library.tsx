@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { AdminLayout } from "@/components/admin/admin-layout";
 import { supabase } from "@/lib/supabase";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-fix";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";

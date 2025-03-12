@@ -4,10 +4,10 @@ import { supabase } from "@/lib/supabase";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button-fix";
 import { Search } from "lucide-react";
 import { TicketDetailsDialog } from "@/components/support/ticket-details-dialog";
 import { mockSupportTickets } from "@/lib/auth";
-import type { Tables } from "@/types/supabase";
 
 // Define ticket type manually since it's not in the schema yet
 type Ticket = {
@@ -23,7 +23,7 @@ type Ticket = {
   member?: {
     full_name: string;
   };
-};
+} | null;
 
 export default function AdminSupportPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -76,11 +76,11 @@ export default function AdminSupportPage() {
 
   const filteredTickets = tickets.filter(
     (ticket) =>
-      (ticket.member?.full_name || "")
+      (ticket?.member?.full_name || "")
         .toLowerCase()
         .includes(search.toLowerCase()) ||
-      ticket.title.toLowerCase().includes(search.toLowerCase()) ||
-      ticket.description.toLowerCase().includes(search.toLowerCase()),
+      ticket?.title.toLowerCase().includes(search.toLowerCase()) ||
+      ticket?.description.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -111,53 +111,56 @@ export default function AdminSupportPage() {
               ))}
             </div>
           ) : (
-            filteredTickets.map((ticket) => (
-              <Card
-                key={ticket.id}
-                className="cursor-pointer hover:bg-accent/50 transition-colors"
-                onClick={() => setSelectedTicket(ticket)}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold">{ticket.title}</h3>
-                        {ticket.member?.full_name && (
-                          <span className="text-sm text-muted-foreground">
-                            • {ticket.member.full_name}
-                          </span>
-                        )}
+            filteredTickets.map(
+              (ticket) =>
+                ticket && (
+                  <Card
+                    key={ticket.id}
+                    className="cursor-pointer hover:bg-accent/50 transition-colors"
+                    onClick={() => setSelectedTicket(ticket)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{ticket.title}</h3>
+                            {ticket.member?.full_name && (
+                              <span className="text-sm text-muted-foreground">
+                                • {ticket.member.full_name}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {ticket.description}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <Badge
+                            variant="secondary"
+                            className={getStatusColor(ticket.status)}
+                          >
+                            {ticket.status === "open"
+                              ? "Aberto"
+                              : ticket.status === "in_progress"
+                                ? "Em Andamento"
+                                : "Fechado"}
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className={getPriorityColor(ticket.priority)}
+                          >
+                            {ticket.priority === "high"
+                              ? "Alta"
+                              : ticket.priority === "medium"
+                                ? "Média"
+                                : "Baixa"}
+                          </Badge>
+                        </div>
                       </div>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {ticket.description}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <Badge
-                        variant="secondary"
-                        className={getStatusColor(ticket.status)}
-                      >
-                        {ticket.status === "open"
-                          ? "Aberto"
-                          : ticket.status === "in_progress"
-                            ? "Em Andamento"
-                            : "Fechado"}
-                      </Badge>
-                      <Badge
-                        variant="secondary"
-                        className={getPriorityColor(ticket.priority)}
-                      >
-                        {ticket.priority === "high"
-                          ? "Alta"
-                          : ticket.priority === "medium"
-                            ? "Média"
-                            : "Baixa"}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                    </CardContent>
+                  </Card>
+                ),
+            )
           )}
 
           {!loading && filteredTickets.length === 0 && (
