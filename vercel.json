@@ -1,1 +1,1 @@
-{"version":2,"buildCommand":"./vercel-build.sh","outputDirectory":"dist","installCommand":"npm install","framework":"vite","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
+{"version":2,"buildCommand":"./vercel-build.sh","outputDirectory":"dist","installCommand":"npm install","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
