@@ -19,7 +19,7 @@ type Ticket = Tables<"support_tickets">;
 type Message = Tables<"support_messages">;
 
 interface TicketDetailsDialogProps {
-  ticket: Ticket | null;
+  ticket: Ticket | null | undefined;
   onOpenChange: (open: boolean) => void;
   onTicketUpdated: () => void;
 }

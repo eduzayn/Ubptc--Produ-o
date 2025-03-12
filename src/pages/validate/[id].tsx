@@ -29,12 +29,12 @@ export default function ValidateCredentialPage() {
         if (error) throw error;
         setMember(data);
 
-        // Log this validation attempt
-        await supabase.from("credential_validations").insert({
-          member_id: id,
-          validated_at: new Date().toISOString(),
-          ip_address: "anonymous",
-        });
+        // Comentando esta parte pois a tabela não existe no esquema atual
+        // await supabase.from("credential_validations").insert({
+        //   member_id: id,
+        //   validated_at: new Date().toISOString(),
+        //   ip_address: "anonymous",
+        // });
       } catch (err) {
         console.error("Error validating credential:", err);
         setError("Credencial não encontrada ou inválida");
