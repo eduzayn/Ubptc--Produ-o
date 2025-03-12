@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
-const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard"));
+const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
