@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { tempo } from "tempo-devtools/dist/vite";
 import path from "path";
 import dotenv from "dotenv";
@@ -7,8 +7,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Adicionar plugins condicionais
-const conditionalPlugins = [];
-if (process.env.TEMPO === "true") {
+const conditionalPlugins: [string, Record<string, any>][] = [];
+if (process.env.VITE_TEMPO) {
   conditionalPlugins.push(["tempo-devtools/swc", {}]);
 }
 
@@ -27,7 +27,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    allowedHosts: process.env.TEMPO === "true" ? true : undefined,
+    allowedHosts: process.env.VITE_TEMPO ? true : undefined,
   },
   define: {
     __WS_TOKEN__: JSON.stringify("tempo-ws-token"),
