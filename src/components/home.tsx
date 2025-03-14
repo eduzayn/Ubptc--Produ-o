@@ -47,8 +47,8 @@ function Home() {
             </div>
             <div className="lg:w-1/2">
               <img
-                src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?q=80&w=1920&auto=format&fit=crop"
-                alt="Profissionais"
+                src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=1200&q=80"
+                alt="Profissionais de Saúde Mental"
                 className="rounded-lg shadow-xl"
               />
             </div>

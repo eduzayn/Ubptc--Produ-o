@@ -19,6 +19,7 @@ import JoinPage from "./pages/join";
 import JoinSuccessPage from "./pages/join/success";
 import ValidateCredentialPage from "./pages/validate/[id]";
 import AboutPage from "./pages/about";
+import ContactPage from "./pages/contact";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/join/success" element={<JoinSuccessPage />} />
           <Route path="/validate/:id" element={<ValidateCredentialPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           {/* Rotas protegidas */}
           <Route
