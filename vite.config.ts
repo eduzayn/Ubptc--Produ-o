@@ -6,6 +6,7 @@ import { tempo } from "tempo-devtools/dist/vite";
 
 dotenv.config();
 
+// Add this block of code for Tempo
 const conditionalPlugins = [];
 if (process.env.TEMPO === "true") {
   conditionalPlugins.push(["tempo-devtools/swc", {}]);
@@ -15,7 +16,7 @@ if (process.env.TEMPO === "true") {
 export default defineConfig({
   plugins: [
     react({
-      plugins: [...conditionalPlugins],
+      plugins: [...conditionalPlugins], // Add the conditional plugin
     }),
     tempo(),
   ],

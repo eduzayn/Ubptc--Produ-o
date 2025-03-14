@@ -5,16 +5,20 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./lib/auth";
 
-// Import the dev tools
-import { TempoDevtools } from "tempo-devtools";
-
-// Initialize Tempo Devtools
-if (import.meta.env.VITE_TEMPO === "true") {
-  TempoDevtools.init();
-}
-
 // Definir basename para o router
 const basename = import.meta.env.BASE_URL || "/";
+
+// Import and initialize Tempo Devtools after DOM is ready
+if (import.meta.env.VITE_TEMPO === "true") {
+  // Use dynamic import to avoid issues with the plugin
+  import("tempo-devtools/dist/index.js")
+    .then(({ TempoDevtools }) => {
+      TempoDevtools.init();
+    })
+    .catch((err) => {
+      console.error("Failed to initialize Tempo:", err);
+    });
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

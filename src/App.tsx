@@ -25,7 +25,7 @@ import JoinDocumentsPage from "./pages/join-documents";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
 function App() {
-  // Tempo routes
+  // Tempo routes - ensure they're loaded before other routes
   const tempoRoutes =
     import.meta.env.VITE_TEMPO === "true" ? useRoutes(routes) : null;
 
@@ -37,7 +37,9 @@ function App() {
         </div>
       }
     >
+      {/* Render Tempo routes first */}
       {tempoRoutes}
+
       <Routes>
         {/* Rotas públicas */}
         <Route path="/login" element={<LoginPage />} />
@@ -98,11 +100,11 @@ function App() {
         <Route path="/admin/support" element={<AdminSupportPage />} />
         <Route path="/admin/layout" element={<AdminLayoutPage />} />
 
+        {/* Add this before the catchall route to ensure Tempo routes work */}
+        {import.meta.env.VITE_TEMPO === "true" && <Route path="/tempobook/*" />}
+
         {/* Rota padrão - redireciona para home */}
         <Route path="*" element={<Navigate to="/" replace />} />
-
-        {/* Tempo routes */}
-        {import.meta.env.VITE_TEMPO === "true" && <Route path="/tempobook/*" />}
       </Routes>
     </Suspense>
   );
