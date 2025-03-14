@@ -264,6 +264,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          id: string
+          created_at: string | null
+          updated_at: string | null
+          key: string
+          value: Json | null
+          category: string
+          description: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string | null
+          updated_at?: string | null
+          key: string
+          value?: Json | null
+          category: string
+          description?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string | null
+          updated_at?: string | null
+          key?: string
+          value?: Json | null
+          category?: string
+          description?: string | null
+        }
+        Relationships: []
+      }
       live_classes: {
         Row: {
           course_id: string

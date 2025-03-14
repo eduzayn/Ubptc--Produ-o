@@ -2,6 +2,8 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
+import AdminSettingsPage from "./pages/admin/settings";
+import { SiteSettingsProvider } from "./contexts/site-settings-context";
 const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
@@ -21,12 +23,14 @@ import ValidateCredentialPage from "./pages/validate/[id]";
 import AboutPage from "./pages/about";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
+import { AdminProtectedRoute } from "./components/auth/admin-protected-route";
 
 function App() {
   return (
     <Suspense fallback={<p>Carregando...</p>}>
       <AuthProvider>
-        <Routes>
+        <SiteSettingsProvider>
+          <Routes>
           {/* Rotas públicas */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -141,9 +145,17 @@ function App() {
           <Route
             path="/admin/layout"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminLayoutPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <AdminProtectedRoute>
+                <AdminSettingsPage />
+              </AdminProtectedRoute>
             }
           />
 
@@ -155,6 +167,7 @@ function App() {
             <Route path="/tempobook/*" />
           )}
         </Routes>
+        </SiteSettingsProvider>
       </AuthProvider>
     </Suspense>
   );
