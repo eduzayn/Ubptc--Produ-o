@@ -25,7 +25,7 @@ import JoinDocumentsPage from "./pages/join-documents";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
 function App() {
-  // Tempo routes - only in development
+  // Tempo routes
   const tempoRoutes =
     import.meta.env.VITE_TEMPO === "true" ? useRoutes(routes) : null;
 
@@ -101,7 +101,7 @@ function App() {
         {/* Rota padrão - redireciona para home */}
         <Route path="*" element={<Navigate to="/" replace />} />
 
-        {/* Tempo routes - only in development */}
+        {/* Tempo routes */}
         {import.meta.env.VITE_TEMPO === "true" && <Route path="/tempobook/*" />}
       </Routes>
     </Suspense>

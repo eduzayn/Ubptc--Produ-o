@@ -2,12 +2,23 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import dotenv from "dotenv";
+import { tempo } from "tempo-devtools/dist/vite";
 
 dotenv.config();
 
+const conditionalPlugins = [];
+if (process.env.TEMPO === "true") {
+  conditionalPlugins.push(["tempo-devtools/swc", {}]);
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      plugins: [...conditionalPlugins],
+    }),
+    tempo(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
