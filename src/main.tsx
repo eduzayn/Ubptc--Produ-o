@@ -5,14 +5,8 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./lib/auth";
 
-// Inicializar o Tempo Devtools apenas em ambiente de desenvolvimento
-if (import.meta.env.DEV && import.meta.env.VITE_TEMPO) {
-  import("tempo-devtools").then(({ TempoDevtools }) => {
-    TempoDevtools.init();
-  });
-}
-
-const basename = import.meta.env.BASE_URL;
+// Definir basename para o router
+const basename = import.meta.env.BASE_URL || "/";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -23,3 +17,17 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+
+// Initialize Tempo after render
+if (import.meta.env.DEV && import.meta.env.VITE_TEMPO === "true") {
+  // Use a simple timeout to ensure this runs after render
+  setTimeout(() => {
+    import("tempo-devtools")
+      .then(({ TempoDevtools }) => {
+        TempoDevtools.init();
+      })
+      .catch((err) => {
+        console.error("Failed to load Tempo Devtools:", err);
+      });
+  }, 0);
+}

@@ -1,8 +1,9 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useRoutes } from "react-router-dom";
 import Home from "./components/home";
 import LoginPage from "./pages/login";
-const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
+import routes from "./tempo-routes";
+const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
@@ -19,143 +20,90 @@ import JoinPage from "./pages/join";
 import JoinSuccessPage from "./pages/join/success";
 import ValidateCredentialPage from "./pages/validate/[id]";
 import AboutPage from "./pages/about";
-import AuthProvider from "./lib/auth";
+import ContactPage from "./pages/contact";
+import JoinDocumentsPage from "./pages/join-documents";
 import { ProtectedRoute } from "./components/auth/protected-route";
 
 function App() {
+  // Tempo routes - only in development
+  const tempoRoutes =
+    import.meta.env.VITE_TEMPO === "true" ? useRoutes(routes) : null;
+
   return (
-    <Suspense fallback={<p>Carregando...</p>}>
-      <AuthProvider>
-        <Routes>
-          {/* Rotas públicas */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/join" element={<JoinPage />} />
-          <Route path="/join/success" element={<JoinSuccessPage />} />
-          <Route path="/validate/:id" element={<ValidateCredentialPage />} />
-          <Route path="/about" element={<AboutPage />} />
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Carregando...
+        </div>
+      }
+    >
+      {tempoRoutes}
+      <Routes>
+        {/* Rotas públicas */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/join" element={<JoinPage />} />
+        <Route path="/join/documents" element={<JoinDocumentsPage />} />
+        <Route path="/join/success" element={<JoinSuccessPage />} />
+        <Route path="/validate/:id" element={<ValidateCredentialPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
-          {/* Rotas protegidas */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/courses"
-            element={
-              <ProtectedRoute>
-                <CoursesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/courses/:id"
-            element={
-              <ProtectedRoute>
-                <CourseDetailsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/library"
-            element={
-              <ProtectedRoute>
-                <LibraryPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/support"
-            element={
-              <ProtectedRoute>
-                <SupportPage />
-              </ProtectedRoute>
-            }
-          />
+        {/* Rotas protegidas */}
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route
+          path="/courses/:id"
+          element={
+            <ProtectedRoute>
+              <CourseDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/library"
+          element={
+            <ProtectedRoute>
+              <LibraryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/support"
+          element={
+            <ProtectedRoute>
+              <SupportPage />
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Admin routes */}
-          <Route
-            path="/admin"
-            element={<Navigate to="/admin/dashboard" replace />}
-          />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/members"
-            element={
-              <ProtectedRoute>
-                <AdminMembersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/finances"
-            element={
-              <ProtectedRoute>
-                <AdminFinancesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/courses"
-            element={
-              <ProtectedRoute>
-                <AdminCoursesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/library"
-            element={
-              <ProtectedRoute>
-                <AdminLibraryPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/support"
-            element={
-              <ProtectedRoute>
-                <AdminSupportPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/layout"
-            element={
-              <ProtectedRoute>
-                <AdminLayoutPage />
-              </ProtectedRoute>
-            }
-          />
+        {/* Admin routes */}
+        <Route
+          path="/admin"
+          element={<Navigate to="/admin/dashboard" replace />}
+        />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/members" element={<AdminMembersPage />} />
+        <Route path="/admin/finances" element={<AdminFinancesPage />} />
+        <Route path="/admin/courses" element={<AdminCoursesPage />} />
+        <Route path="/admin/library" element={<AdminLibraryPage />} />
+        <Route path="/admin/support" element={<AdminSupportPage />} />
+        <Route path="/admin/layout" element={<AdminLayoutPage />} />
 
-          {/* Rota padrão - redireciona para home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Rota padrão - redireciona para home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
 
-          {/* Tempo routes */}
-          {import.meta.env.VITE_TEMPO === "true" && (
-            <Route path="/tempobook/*" />
-          )}
-        </Routes>
-      </AuthProvider>
+        {/* Tempo routes - only in development */}
+        {import.meta.env.VITE_TEMPO === "true" && <Route path="/tempobook/*" />}
+      </Routes>
     </Suspense>
   );
 }

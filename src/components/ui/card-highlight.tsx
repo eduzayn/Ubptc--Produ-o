@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { Card, CardContent } from "./card";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface CardHighlightProps {
   icon: LucideIcon;

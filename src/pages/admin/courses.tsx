@@ -22,6 +22,45 @@ export default function AdminCoursesPage() {
 
   async function loadCourses() {
     try {
+      // In development, use mock data
+      if (import.meta.env.DEV) {
+        // Mock courses for development
+        const mockCourses = [
+          {
+            id: "1",
+            title: "Fundamentos da Psicanálise",
+            description:
+              "Um curso abrangente sobre os fundamentos da psicologia clínica moderna.",
+            instructor: "Dra. Maria Silva",
+            duration: 20,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+          {
+            id: "2",
+            title: "Terapia Cognitivo-Comportamental",
+            description: "Aprenda as técnicas e aplicações práticas da TCC.",
+            instructor: "Dr. João Santos",
+            duration: 15,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+          {
+            id: "3",
+            title: "Psicologia Infantil",
+            description: "Desenvolvimento infantil e técnicas de intervenção.",
+            instructor: "Dra. Ana Oliveira",
+            duration: 25,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        ];
+        setCourses(mockCourses);
+        setLoading(false);
+        return;
+      }
+
+      // In production, fetch from Supabase
       const { data, error } = await supabase
         .from("courses")
         .select("*")
@@ -31,6 +70,8 @@ export default function AdminCoursesPage() {
       setCourses(data || []);
     } catch (err) {
       console.error("Error loading courses:", err);
+      // Fallback to empty array if error
+      setCourses([]);
     } finally {
       setLoading(false);
     }
