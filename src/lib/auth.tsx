@@ -5,6 +5,7 @@ import { supabase } from "./supabase";
 type AuthContextType = {
   user: User | null;
   loading: boolean;
+  isAdmin: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -165,11 +166,14 @@ export default function AuthProvider({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Em desenvolvimento, usa o usuário mock
     if (import.meta.env.DEV) {
       setUser(mockUser);
+      // Define isAdmin baseado na variável de ambiente para desenvolvimento
+      setIsAdmin(import.meta.env.VITE_DEV_ADMIN === "true");
       setLoading(false);
       return;
     }
@@ -179,10 +183,31 @@ export default function AuthProvider({
       try {
         const { data, error } = await supabase.auth.getSession();
         if (error) throw error;
-        setUser(data.session?.user || null);
+        
+        const currentUser = data.session?.user || null;
+        setUser(currentUser);
+        
+        // Verifica se o usuário é admin
+        if (currentUser) {
+          const { data: adminData, error: adminError } = await supabase
+            .from("admin_roles")
+            .select("*")
+            .eq("member_id", currentUser.id)
+            .maybeSingle();
+            
+          if (adminError) {
+            console.error("Error checking admin role:", adminError);
+            setIsAdmin(false);
+          } else {
+            setIsAdmin(!!adminData);
+          }
+        } else {
+          setIsAdmin(false);
+        }
       } catch (err) {
         console.error("Error checking auth session:", err);
         setUser(null);
+        setIsAdmin(false);
       } finally {
         setLoading(false);
       }
@@ -258,7 +283,7 @@ export default function AuthProvider({
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

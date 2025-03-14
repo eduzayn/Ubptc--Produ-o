@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
 import {
   BookOpen,
   GraduationCap,
@@ -16,6 +17,7 @@ interface MainNavProps {
 }
 
 export function MainNav({ className = "" }: MainNavProps) {
+  const { isAdmin } = useAuth();
   return (
     <nav className={`flex items-center space-x-4 lg:space-x-6 ${className}`}>
       <Button asChild variant="ghost">
@@ -54,12 +56,14 @@ export function MainNav({ className = "" }: MainNavProps) {
           Suporte
         </Link>
       </Button>
-      <Button asChild variant="ghost">
-        <Link to="/admin/dashboard">
-          <Settings className="h-4 w-4 mr-2" />
-          Admin
-        </Link>
-      </Button>
+      {isAdmin && (
+        <Button asChild variant="ghost">
+          <Link to="/admin/dashboard">
+            <Settings className="h-4 w-4 mr-2" />
+            Admin
+          </Link>
+        </Button>
+      )}
       <Button asChild variant="default" className="ml-auto">
         <Link to="/login">
           <LogIn className="h-4 w-4 mr-2" />

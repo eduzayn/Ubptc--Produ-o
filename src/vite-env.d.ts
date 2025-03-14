@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_SERVICE_KEY: string;
   readonly VITE_TEMPO: string;
   readonly BASE_URL: string;
+  readonly VITE_DEV_ADMIN: string;
 }
 
 interface ImportMeta {

@@ -21,6 +21,7 @@ import ValidateCredentialPage from "./pages/validate/[id]";
 import AboutPage from "./pages/about";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
+import { AdminProtectedRoute } from "./components/auth/admin-protected-route";
 
 function App() {
   return (
@@ -93,57 +94,57 @@ function App() {
           <Route
             path="/admin/dashboard"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminDashboardPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/members"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminMembersPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/finances"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminFinancesPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/courses"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminCoursesPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/library"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminLibraryPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/support"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminSupportPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/layout"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminLayoutPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
 
