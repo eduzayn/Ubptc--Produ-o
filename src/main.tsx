@@ -5,13 +5,6 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./lib/auth";
 
-// Inicializar o Tempo Devtools apenas em ambiente de desenvolvimento
-if (import.meta.env.DEV && import.meta.env.VITE_TEMPO) {
-  import("tempo-devtools").then(({ TempoDevtools }) => {
-    TempoDevtools.init();
-  });
-}
-
 // Ensure BASE_URL is properly set or default to '/'
 const basename = import.meta.env.BASE_URL || '/';
 
