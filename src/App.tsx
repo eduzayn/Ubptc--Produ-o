@@ -6,7 +6,7 @@ import LoginPage from "./pages/login";
 import AdminSettingsPage from "./pages/admin/settings";
 import { SiteSettingsProvider } from "./contexts/site-settings-context";
 import { Button } from "./components/ui/button";
-const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
+import AdminDashboardPage from "./pages/admin/dashboard-new";
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
@@ -175,10 +175,7 @@ function App() {
             </div>
           } />
 
-          {/* Tempo routes */}
-          {import.meta.env.VITE_TEMPO === "true" && (
-            <Route path="/tempobook/*" />
-          )}
+          {/* End of routes */}
         </Routes>
         </SiteSettingsProvider>
       </AuthProvider>
