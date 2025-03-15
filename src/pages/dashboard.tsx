@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "../components/layout/header";
 import { useAuth } from "../lib/auth";
 import { Navigate, Link } from "react-router-dom";
+import { Breadcrumbs } from "../components/ui/breadcrumbs";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-12">
+        <Breadcrumbs className="mb-6" />
         <h1 className="text-3xl font-bold mb-6">Bem-vindo(a) à UBPTC</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white rounded-lg shadow-md p-6">

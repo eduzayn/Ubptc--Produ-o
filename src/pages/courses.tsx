@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { CourseCard } from "@/components/courses/course-card";
 import { supabase } from "@/lib/supabase";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import type { Tables } from "@/types/supabase";
@@ -48,6 +49,7 @@ export default function CoursesPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-6 space-y-6">
+        <Breadcrumbs className="mb-6" />
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Catálogo de Cursos</h1>
           <div className="relative">

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { DigitalCredential } from "@/components/profile/digital-credential";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EditProfileDialog } from "@/components/profile/edit-profile-dialog";
@@ -80,6 +81,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-6 space-y-6">
+        <Breadcrumbs className="mb-6" />
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Perfil do Associado</h1>
           <Button variant="outline" onClick={() => setIsEditing(true)}>
