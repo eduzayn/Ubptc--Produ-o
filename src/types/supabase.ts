@@ -204,6 +204,27 @@ export type Database = {
         }
         Relationships: []
       }
+      credential_validations: {
+        Row: {
+          id: string
+          ip_address: string | null
+          member_id: string
+          validated_at: string | null
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          member_id: string
+          validated_at?: string | null
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          member_id?: string
+          validated_at?: string | null
+        }
+        Relationships: []
+      }
       ebooks: {
         Row: {
           category: string
@@ -515,6 +536,72 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      support_messages: {
+        Row: {
+          admin_id: string | null
+          created_at: string | null
+          id: string
+          member_id: string | null
+          message: string
+          ticket_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          admin_id?: string | null
+          created_at?: string | null
+          id?: string
+          member_id?: string | null
+          message: string
+          ticket_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          admin_id?: string | null
+          created_at?: string | null
+          id?: string
+          member_id?: string | null
+          message?: string
+          ticket_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string
+          id: string
+          member_id: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string | null
+          description: string
+          id?: string
+          member_id: string
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          member_id?: string
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

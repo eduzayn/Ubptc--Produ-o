@@ -27,6 +27,7 @@ const routeLabels: Record<string, string> = {
   "settings": "Configurações",
   "about": "Sobre Nós",
   "join": "Associe-se",
+  "contact": "Contato",
 };
 
 export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {

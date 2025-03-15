@@ -86,8 +86,13 @@ function Home() {
             </div>
             <div className="lg:w-1/2">
               <img
+<<<<<<< HEAD
+                src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=1200&q=80"
+                alt="Profissionais de Saúde Mental"
+=======
                 src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=1920&auto=format&fit=crop"
                 alt="Profissionais da Saúde Mental"
+>>>>>>> origin/main
                 className="rounded-lg shadow-xl"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
