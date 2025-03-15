@@ -31,14 +31,29 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
             .from("site_settings")
             .select("key, value");
 
-          if (error) throw error;
+          if (error) {
+            console.error("Error loading site settings:", error);
+            // Fallback to default settings if there's an error
+            setSettings({
+              site_name: "UBPTC",
+              site_description: "União Brasileira de Psicanalistas e Terapeutas Clínicos",
+              primary_color: "#3b82f6",
+              secondary_color: "#1e40af",
+              contact_email: "contato@ubptc.org.br",
+              contact_phone: "(11) 99999-9999",
+              facebook_url: "https://facebook.com/ubptc",
+              instagram_url: "https://instagram.com/ubptc",
+              meta_title: "UBPTC - União Brasileira de Psicanalistas e Terapeutas Clínicos",
+              meta_description: "A UBPTC é uma associação dedicada a conectar e fortalecer profissionais da saúde mental.",
+            });
+          } else {
+            const settingsObj = data.reduce((acc, item) => {
+              acc[item.key] = item.value;
+              return acc;
+            }, {} as SiteSettings);
 
-          const settingsObj = data.reduce((acc, item) => {
-            acc[item.key] = item.value;
-            return acc;
-          }, {} as SiteSettings);
-
-          setSettings(settingsObj);
+            setSettings(settingsObj);
+          }
         } else {
           // Dados mockados para desenvolvimento
           setSettings({

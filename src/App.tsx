@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Home from "./components/home";
 import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/login";
 import AdminSettingsPage from "./pages/admin/settings";
 import { SiteSettingsProvider } from "./contexts/site-settings-context";
+import { Button } from "./components/ui/button";
 const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
@@ -161,8 +162,18 @@ function App() {
             }
           />
 
-          {/* Rota padrão - redireciona para dashboard se autenticado, senão para home */}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          {/* Fallback route - ensures something always renders */}
+          <Route path="*" element={
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
+                <p className="mb-6">A página que você está procurando não existe ou foi movida.</p>
+                <Button asChild>
+                  <Link to="/">Voltar para a página inicial</Link>
+                </Button>
+              </div>
+            </div>
+          } />
 
           {/* Tempo routes */}
           {import.meta.env.VITE_TEMPO === "true" && (

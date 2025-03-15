@@ -12,7 +12,8 @@ if (import.meta.env.DEV && import.meta.env.VITE_TEMPO) {
   });
 }
 
-const basename = import.meta.env.BASE_URL;
+// Ensure BASE_URL is properly set or default to '/'
+const basename = import.meta.env.BASE_URL || '/';
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
