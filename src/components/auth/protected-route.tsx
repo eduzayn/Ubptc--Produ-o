@@ -18,7 +18,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} replace />;
   }
 
   return <>{children}</>;
