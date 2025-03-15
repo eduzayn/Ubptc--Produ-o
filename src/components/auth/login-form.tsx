@@ -75,6 +75,11 @@ export function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <div className="text-sm text-right">
+              <a href="/recover-password" className="text-blue-600 hover:underline">
+                Esqueceu sua senha?
+              </a>
+            </div>
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">

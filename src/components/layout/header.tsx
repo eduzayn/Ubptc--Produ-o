@@ -1,11 +1,7 @@
 import { useLayoutSettings } from "@/hooks/use-layout-settings";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
-<<<<<<< HEAD
-import { Settings, User } from "lucide-react";
-=======
-import { LogIn, LogOut } from "lucide-react";
->>>>>>> origin/main
+import { Settings, User, LogIn, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useSiteSettingsContext } from "@/contexts/site-settings-context";
@@ -57,35 +53,29 @@ export function Header() {
             </Link>
           </nav>
         </div>
-<<<<<<< HEAD
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/admin/dashboard">
-              <Settings className="h-5 w-5" />
-            </Link>
-          </Button>
-          <Button variant="outline" className="rounded-full" asChild>
-            <Link to="/login">
-              <User className="h-4 w-4 mr-2" />
-              Área do Associado
-            </Link>
-          </Button>
-=======
-        <div>
           {user ? (
-            <Button variant="default" size="sm" onClick={signOut}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Sair
-            </Button>
+            <>
+              {user.user_metadata?.isAdmin && (
+                <Button variant="ghost" size="icon" asChild>
+                  <Link to="/admin/dashboard">
+                    <Settings className="h-5 w-5" />
+                  </Link>
+                </Button>
+              )}
+              <Button variant="default" size="sm" onClick={signOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sair
+              </Button>
+            </>
           ) : (
-            <Button asChild variant="default" size="sm">
+            <Button asChild variant="outline" className="rounded-full">
               <Link to="/login">
-                <LogIn className="h-4 w-4 mr-2" />
-                Entrar
+                <User className="h-4 w-4 mr-2" />
+                Área do Associado
               </Link>
             </Button>
           )}
->>>>>>> origin/main
         </div>
       </div>
     </header>

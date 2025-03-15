@@ -4,6 +4,10 @@ import Home from "./components/home";
 import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/login";
 import AdminSettingsPage from "./pages/admin/settings";
+import RecoverPasswordPage from "./pages/recover-password";
+import ResetPasswordPage from "./pages/reset-password";
+import ConfirmEmailPage from "./pages/confirm-email";
+import NotFoundPage from "./pages/not-found";
 import { SiteSettingsProvider } from "./contexts/site-settings-context";
 import { Button } from "./components/ui/button";
 import AdminDashboardPage from "./pages/admin/dashboard-new";
@@ -42,6 +46,9 @@ function App() {
           <Route path="/validate/:id" element={<ValidateCredentialPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/recover-password" element={<RecoverPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/confirm-email" element={<ConfirmEmailPage />} />
 
           {/* Rotas protegidas */}
           <Route path="/" element={<Home />} />
@@ -102,49 +109,49 @@ function App() {
           <Route
             path="/admin/dashboard"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminDashboardPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/members"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminMembersPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/finances"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminFinancesPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/courses"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminCoursesPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/library"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminLibraryPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
             path="/admin/support"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminSupportPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           />
           <Route
@@ -165,24 +172,9 @@ function App() {
           />
 
           {/* Fallback route - ensures something always renders */}
-          <Route path="*" element={
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="text-center">
-                <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
-                <p className="mb-6">A página que você está procurando não existe ou foi movida.</p>
-                <Button asChild>
-                  <Link to="/">Voltar para a página inicial</Link>
-                </Button>
-              </div>
-            </div>
-          } />
+          <Route path="*" element={<NotFoundPage />} />
 
-<<<<<<< HEAD
-          {/* Tempo routes */}
-          {import.meta.env.VITE_TEMPO && <Route path="/tempobook/*" />}
-=======
           {/* End of routes */}
->>>>>>> origin/main
         </Routes>
         </SiteSettingsProvider>
       </AuthProvider>

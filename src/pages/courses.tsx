@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { supabase } from "@/lib/supabase";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,6 +100,7 @@ export default function CoursesPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-8 space-y-8">
+        <Breadcrumbs className="mb-6" />
         <h1 className="text-3xl font-bold">Cursos Disponíveis</h1>
 
         <div className="relative w-full">
@@ -109,6 +111,7 @@ export default function CoursesPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10 w-full"
           />
+
         </div>
 
         {loading ? (

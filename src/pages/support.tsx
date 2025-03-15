@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { supabase } from "@/lib/supabase";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -78,6 +79,7 @@ export default function SupportPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-6 space-y-6">
+        <Breadcrumbs className="mb-6" />
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Suporte</h1>
           <Button onClick={() => setCreateOpen(true)}>

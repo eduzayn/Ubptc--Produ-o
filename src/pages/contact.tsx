@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export default function ContactPage() {
@@ -9,6 +10,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-12">
+        <Breadcrumbs className="mb-6" />
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-2">
             Entre em Contato Conosco Agora

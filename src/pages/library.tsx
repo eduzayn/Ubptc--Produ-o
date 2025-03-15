@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { EbookCard } from "@/components/library/ebook-card";
 import { CategoryFilter } from "@/components/library/category-filter";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { supabase } from "@/lib/supabase";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -50,6 +51,7 @@ export default function LibraryPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-6 space-y-6">
+        <Breadcrumbs className="mb-6" />
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Biblioteca Digital</h1>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
