@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/home";
+import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/login";
 import AdminSettingsPage from "./pages/admin/settings";
 import { SiteSettingsProvider } from "./contexts/site-settings-context";
@@ -40,11 +41,12 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
 
           {/* Rotas protegidas */}
+          <Route path="/" element={<Home />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
-                <Home />
+                <DashboardPage />
               </ProtectedRoute>
             }
           />
@@ -159,8 +161,8 @@ function App() {
             }
           />
 
-          {/* Rota padrão - redireciona para home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Rota padrão - redireciona para dashboard se autenticado, senão para home */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
 
           {/* Tempo routes */}
           {import.meta.env.VITE_TEMPO === "true" && (
