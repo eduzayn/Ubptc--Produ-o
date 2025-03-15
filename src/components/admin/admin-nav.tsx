@@ -8,6 +8,7 @@ import {
   MessageCircle,
   Palette,
   LayoutDashboard,
+  Settings,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
@@ -86,6 +87,16 @@ export function AdminNav() {
         <Link to="/admin/layout">
           <Palette className="h-4 w-4 mr-2" />
           Layout
+        </Link>
+      </Button>
+      <Button
+        variant={isActive("/admin/settings") ? "default" : "ghost"}
+        className="w-full justify-start"
+        asChild
+      >
+        <Link to="/admin/settings">
+          <Settings className="h-4 w-4 mr-2" />
+          Configurações
         </Link>
       </Button>
     </nav>

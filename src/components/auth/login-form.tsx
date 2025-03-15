@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,11 +16,15 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +32,7 @@ export function LoginForm() {
       setError("");
       setLoading(true);
       await signIn(email, password);
-      navigate("/");
+      navigate(redirectTo);
     } catch (err) {
       setError("Failed to sign in. Please check your credentials.");
     } finally {

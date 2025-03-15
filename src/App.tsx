@@ -1,8 +1,12 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Home from "./components/home";
+import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/login";
-const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
+import AdminSettingsPage from "./pages/admin/settings";
+import { SiteSettingsProvider } from "./contexts/site-settings-context";
+import { Button } from "./components/ui/button";
+import AdminDashboardPage from "./pages/admin/dashboard-new";
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
 const AdminCoursesPage = lazy(() => import("./pages/admin/courses"));
@@ -22,12 +26,14 @@ import AboutPage from "./pages/about";
 import ContactPage from "./pages/contact";
 import AuthProvider from "./lib/auth";
 import { ProtectedRoute } from "./components/auth/protected-route";
+import { AdminProtectedRoute } from "./components/auth/admin-protected-route";
 
 function App() {
   return (
     <Suspense fallback={<p>Carregando...</p>}>
       <AuthProvider>
-        <Routes>
+        <SiteSettingsProvider>
+          <Routes>
           {/* Rotas públicas */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -38,11 +44,12 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
 
           {/* Rotas protegidas */}
+          <Route path="/" element={<Home />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
-                <Home />
+                <DashboardPage />
               </ProtectedRoute>
             }
           />
@@ -143,18 +150,41 @@ function App() {
           <Route
             path="/admin/layout"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <AdminLayoutPage />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <AdminProtectedRoute>
+                <AdminSettingsPage />
+              </AdminProtectedRoute>
             }
           />
 
-          {/* Rota padrão - redireciona para home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Fallback route - ensures something always renders */}
+          <Route path="*" element={
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
+                <p className="mb-6">A página que você está procurando não existe ou foi movida.</p>
+                <Button asChild>
+                  <Link to="/">Voltar para a página inicial</Link>
+                </Button>
+              </div>
+            </div>
+          } />
 
+<<<<<<< HEAD
           {/* Tempo routes */}
           {import.meta.env.VITE_TEMPO && <Route path="/tempobook/*" />}
+=======
+          {/* End of routes */}
+>>>>>>> origin/main
         </Routes>
+        </SiteSettingsProvider>
       </AuthProvider>
     </Suspense>
   );
