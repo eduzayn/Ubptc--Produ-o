@@ -21,7 +21,29 @@ import {
 import { CardHighlight } from "./ui/card-highlight";
 import { Link } from "react-router-dom";
 
+import { useState, useEffect } from "react";
+import { useSiteSettingsContext } from "@/contexts/site-settings-context";
+
 function Home() {
+  const { loading: settingsLoading } = useSiteSettingsContext();
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // Set loading to false after a short delay to ensure content is ready
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (isLoading || settingsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Carregando...</p>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <Header />
@@ -67,6 +89,10 @@ function Home() {
                 src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=1920&auto=format&fit=crop"
                 alt="Profissionais da Saúde Mental"
                 className="rounded-lg shadow-xl"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "/fallback-image.jpg";
+                }}
               />
             </div>
           </div>
@@ -281,6 +307,10 @@ function Home() {
                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" 
                     alt="Dra. Ana Silva"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/fallback-avatar.jpg";
+                    }}
                   />
                 </div>
               </div>
@@ -309,6 +339,10 @@ function Home() {
                     src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop" 
                     alt="Dr. Carlos Mendes"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/fallback-avatar.jpg";
+                    }}
                   />
                 </div>
               </div>
@@ -337,6 +371,10 @@ function Home() {
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" 
                     alt="Dra. Patrícia Almeida"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/fallback-avatar.jpg";
+                    }}
                   />
                 </div>
               </div>
@@ -404,6 +442,10 @@ function Home() {
                     src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1920&auto=format&fit=crop" 
                     alt="Mapa do Brasil" 
                     className="rounded-xl shadow-lg relative z-10"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/fallback-image.jpg";
+                    }}
                   />
                   <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-blue-600 rounded-full animate-ping"></div>
                   <div className="absolute top-1/3 right-1/3 w-4 h-4 bg-indigo-600 rounded-full animate-ping animation-delay-300"></div>
@@ -456,6 +498,10 @@ function Home() {
                   src="https://www.asaas.com/wp-content/uploads/2022/05/logo-asaas-simbolo.svg" 
                   alt="Asaas" 
                   className="h-8 w-8"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/fallback-logo.jpg";
+                  }}
                 />
               </div>
               <h3 className="text-xl font-bold mb-4">Pagamento Seguro</h3>
