@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Home from "./components/home";
 import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/login";
 import AdminSettingsPage from "./pages/admin/settings";
 import { SiteSettingsProvider } from "./contexts/site-settings-context";
+import { Button } from "./components/ui/button";
 const AdminDashboardPage = lazy(() => import("./pages/admin/dashboard-new"));
 const AdminMembersPage = lazy(() => import("./pages/admin/members"));
 const AdminFinancesPage = lazy(() => import("./pages/admin/finances"));
